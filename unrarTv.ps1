@@ -17,17 +17,19 @@ $fileType = "NA"
 $fileName = "Blank"
 $fullFolderPath = $file | select -expand VersionInfo | select -expand Filename
 write-host "full folder path $fullFolderPath"
-
+#need to know if I need to unrar or copy the file
 if($fullFolderPath -match "rar"){
 	$fileType = "rar"
 }
 if($fullFolderPath -match "mkv" -or $fullFolderPath -match "mp4" -or $fullFolderPath -match "avi" -or $fullFolderPath -match "idx" -or $fullFolderPath -match "srt"){
 	$fileType = "mkv"
 }
+#becuase fuck samples
 if($fullFolderPath -match "sample"){
 	$fileType = "sample"
 }
 write-host "fileType: $fileType"
+#determining the file name so I can check if it already exist, if it already exist I don't copy it. Our drives have enough work already
 	if($fileType -eq "rar"){
 		try{
 			$fileName = C:\"Program Files (x86)"\WinRAR\unrar.exe l $fullFolderPath 
